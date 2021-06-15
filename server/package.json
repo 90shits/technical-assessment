@@ -1,0 +1,22 @@
+{
+  "name": "vue-test-api",
+  "version": "1.0.0",
+  "description": "VUEJS Test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/bocasay/vue-test.git"
+  },
+  "author": "Mathieu BERNARD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/bocasay/vue-test/issues"
+  },
+  "homepage": "https://gitlab.com/bocasay/vue-test#readme",
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}
