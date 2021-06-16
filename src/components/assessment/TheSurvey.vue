@@ -2,7 +2,14 @@
   <v-container class="survey">
     <h2 class="mb-2">Products Survey</h2>
 
-    <!-- TODO: split to component -->
+    <v-text-field
+      v-model="searchWord"
+      label="Keyword"
+      hint="Filter result by survey name or code, For example: XX1,..."
+      append-icon="mdi-magnify"
+      outlined dense clearable
+    ></v-text-field>
+
     <v-simple-table class="survey-list text-center mb-6">
       <template v-slot:default>
         <thead>
@@ -14,7 +21,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(item, i) in surveyList"
+            v-for="(item, i) in surveyFilteredList"
             :key="`item-${i}`"
           >
             <td>{{ item.name }}</td>
@@ -28,6 +35,12 @@
                 <v-radio :value="item.code"></v-radio>
               </v-radio-group>
             </td>
+          </tr>
+          <tr
+            v-if="!surveyFilteredList || surveyFilteredList.length <= 0"
+            class="text-center"
+          >
+            <td colspan="3">No results found</td>
           </tr>
         </tbody>
       </template>
@@ -54,11 +67,20 @@ export default {
     }
   },
   computed: {
-    surveyList () {
-      return this.$store.getters.getSurveyList
+    surveyFilteredList () {
+      return this.$store.getters.getFilteredSurveyList || this.$store.getters.getSurveyList
     },
     surveyItem () {
       return this.$store.getters.getSurveyItem
+    },
+    searchWord: {
+      get () {
+        return this.$store.state.searchWord
+      },
+      set (keyword) {
+        this.surveyActive = false
+        this.$store.dispatch('filterSurvey', keyword)
+      }
     }
   },
   mounted () {
@@ -73,15 +95,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.survey-list {
-  max-width: 400px;
-  border: thin solid rgba(0, 0, 0, 0.12);
-  th:not(:last-child),
-  td:not(:last-child) {
-    border-right: thin solid rgba(0, 0, 0, 0.12);
-  }
-  &__radio {
-    max-width: 28px !important;
+.survey {
+  max-width: 600px;
+  &-list {
+    border: thin solid rgba(0, 0, 0, 0.12);
+    th:not(:last-child),
+    td:not(:last-child) {
+      border-right: thin solid rgba(0, 0, 0, 0.12);
+    }
+    &__radio {
+      max-width: 28px !important;
+    }
   }
 }
 </style>
