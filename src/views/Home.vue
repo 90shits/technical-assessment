@@ -2,25 +2,19 @@
   <v-container class="pt-10">
     <v-row>
       <v-col cols="12">
-        <SurveyList />
-        <SurveyContent />
-        <SurveyFilters />
+        <the-survey />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import SurveyList from '../components/assessment/SurveyList'
-import SurveyContent from '../components/assessment/SurveyContent'
-import SurveyFilters from '../components/assessment/SurveyFilters'
+import TheSurvey from '../components/assessment/TheSurvey'
 
 export default {
   name: 'Home',
   components: {
-    SurveyList,
-    SurveyContent,
-    SurveyFilters
+    TheSurvey
   }
 }
 </script>
