@@ -1,23 +1,32 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { sortArrayObjectByKey } from '../helpers'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    surveyList: []
+    surveyList: [],
+    surveyItem: []
   },
 
   getters: {
     getSurveyList (state) {
       return state.surveyList
+    },
+    getSurveyItem (state) {
+      return state.surveyItem
     }
   },
 
   mutations: {
     setSurveyList (state, surveyList) {
-      // Sort by survey code, a greater than b then 1 & otherwise
-      state.surveyList = surveyList.sort((a, b) => (a.code > b.code) ? 1 : -1)
+      // Sort survey list by survey code
+      state.surveyList = sortArrayObjectByKey(surveyList, 'code') || []
+    },
+
+    setSurveyItem (state, surveyItem) {
+      state.surveyItem = surveyItem
     }
   },
 
@@ -25,6 +34,11 @@ export default new Vuex.Store({
     async fetchSurveyList ({ commit }) {
       const { data } = await Vue.axios.get('/api/list.json')
       commit('setSurveyList', data)
+    },
+
+    async fetchSurveyItemByCode ({ commit }, surveyCode) {
+      const { data } = await Vue.axios.get(`/api/${surveyCode}.json`)
+      commit('setSurveyItem', data)
     }
   }
 })
